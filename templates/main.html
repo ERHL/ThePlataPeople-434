@@ -7,6 +7,10 @@
 </div>
 <div id="center">
 <h2>{{story}}</h2>
+<h3>{{instruction}}</h3>
+{% for p in tools %}
+<button>{{p}}</button>
+{% endfor %}
 </div>
 </div>
 {% endblock %}

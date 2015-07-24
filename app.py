@@ -5,7 +5,11 @@ app=Flask(__name__)
 
 @app.route('/')
 def root():
-    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest')
+    tool=[]
+    for i in range(3):
+        tool.append(util.tool())
+        print tool
+    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest.',instruction='What tool do you pick up?',tools=tool)
 
 
 if __name__=='__main__':

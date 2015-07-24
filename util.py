@@ -15,7 +15,7 @@ def setting():
     return "in a %s "%choice(Settings)
 
 def tool():
-    return "with a %s!"%choice(Tools)
+    return choice(Tools)
 
 def storyGen():
     return char()+obj()+setting()+tool()
