@@ -5,3 +5,23 @@ body{
 h2{
     color:#9796A1;
 }
+
+#left{
+    float:left;
+    /*background-color:#59A96A;*/
+    width:20%;
+}
+
+#right{
+    float:right;
+    width:20%;
+}
+
+#center{
+    width:80%;
+}
+
+img{
+    height:90%;
+    width:90%;
+}

@@ -5,7 +5,7 @@ app=Flask(__name__)
 
 @app.route('/')
 def root():
-    return render_template('main.html',story=util.storyGen())
+    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest')
 
 
 if __name__=='__main__':
