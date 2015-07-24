@@ -2,13 +2,12 @@ body{
     background-color:#36453B;
 }
 
-h2, h3{
+h2, h3, h4{
     color:#9796A1;
 }
 
 #left{
     float:left;
-    /*background-color:#59A96A;*/
     width:20%;
 }
 
@@ -25,3 +24,5 @@ img{
     height:90%;
     width:90%;
 }
+
+/*#596869, #59A96A, #9BDEAC */
