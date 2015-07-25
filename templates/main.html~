@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="container">
+<div id="left">
+<img src="../static/img/sloth.jpg">
+</div>
+<div id="center">
+<h2>{{story}}</h2>
+<h3>{{instruction}}</h3>
+<form action="/" method="POST">
+{% for p in tools %}
+<button name="tool" type="submit" value={{p}}>{{p}}</button>
+{% endfor %}
+</form>
+<h4>Current Tool: {{ct}}</h4>
+</div>
+</div>
+{% endblock %}
