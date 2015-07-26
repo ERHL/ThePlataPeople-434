@@ -8,13 +8,13 @@
 <div id="center">
 <h2>{{story}}</h2>
 <h3>{{instruction}}</h3>
-<form action="/" method="POST">
+<form action="/event" method="POST">
 {% for p in tools %}
 <button name="tool" type="submit" value={{p}}>{{p}}</button>
 {% endfor %}
 </form>
 <h4>Current Tool: {{ct}}</h4>
-{% if ct %}
+{% if opt %}
 <h5 id="event"><button type="button" onclick="Tool()">Tool</button><button type="button" onclick="Flee()">Flee</button></h5>
 {% endif %}
 <h4 id="result"></h4>

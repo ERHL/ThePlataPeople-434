@@ -14,6 +14,10 @@
 {% endfor %}
 </form>
 <h4>Current Tool: {{ct}}</h4>
+{% if ct %}
+<h5 id="event"><button type="button" onclick="Tool()">Tool</button><button type="button" onclick="Flee()">Flee</button></h5>
+{% endif %}
+<h4 id="result"></h4>
 </div>
 </div>
 {% endblock %}
