@@ -17,7 +17,6 @@ def root():
 
 @app.route('/event',methods=['POST','GET'])
 def event():
-    print request.form
     if 'item' in request.form:
         global ch
         heal=request.form['item']
