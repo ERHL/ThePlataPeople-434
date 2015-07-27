@@ -20,7 +20,9 @@ def event():
     global ct
     ct=util.get(request.form['tool'])
     if request.method=="POST":
-        return render_template('main.html',story=util.newEvent(),instruction='Use your tool or flee',ct=util.get(ct),opt='yes',health=ch)
+        global act
+        act=util.newEvent()
+        return render_template('main.html',story=act,instruction='Use your tool or flee',ct=util.get(ct),opt='yes',health=ch,)
     elif request.method=="GET":
         return 'GET'
     else:
@@ -29,10 +31,11 @@ def event():
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
     if request.form['choice']=='Flee':
-        global ch
-        ch-=1
-        if ch<=0:
-            return render_template('lose.html')
+        if EVENTS[act][1]>=Tools[ct][1]:
+            global ch
+            ch-=EVENTS[act][1]-Tools[ct][1]
+            if ch<=0:
+                return render_template('lose.html')
     tool=[]
     for i in range(3):
         tool.append(util.tool())
