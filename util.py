@@ -21,7 +21,8 @@ def setting():
     return "in a %s "%choice(Settings)
 
 def tool():
-    Tool={choice(Tools.keys()):Tools[choice(Tools.keys())]}
+    tool=choice(Tools.keys())
+    Tool={tool:Tools[tool]}
     return Tool
 
 def storyGen():
@@ -37,8 +38,9 @@ def get(pt):
     return current_tool
 
 def newEvent():
-    event={choice(EVENTS.keys()):Tools[choice(EVENTS.keys())]}
-    return event
+    event=choice(EVENTS.keys())
+    Event={event:EVENTS[event]}
+    return Event
 
 def store_health(ch):
     global current_health
