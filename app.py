@@ -38,15 +38,18 @@ def event():
 
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
+    dif=0
     if request.form['choice']=='Flee':
-        if act.values()[0][1]>=ct.values()[0][1]:
+        if act.values()[0][1]>ct.values()[0][1]:
             global ch
-            ch-=(act.values()[0][1]-ct.values()[0][1])*10
+            dif=(act.values()[0][1]-ct.values()[0][1])*10
+            ch-=dif
     elif request.form['choice']=='Tool':
         if act.values()[0][2]==-1:
-            if act.values()[0][0]>=ct.values()[0][0]:
+            if act.values()[0][0]>ct.values()[0][0]:
                 global ch
-                ch-=(act.values()[0][0]-ct.values()[0][0])*10
+                dif=(act.values()[0][0]-ct.values()[0][0])*10
+                ch-=dif
         else:
             if act.values()[0][2]<=ct.values()[0][2]:
                 return redirect('/store')
@@ -55,7 +58,7 @@ def newtool():
     tool=[]
     for i in range(3):
         tool.append(util.tool().keys()[0])
-    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch)
+    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You lost %s health"%dif)
 
 @app.route('/store')
 def store():
