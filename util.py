@@ -2,7 +2,7 @@ from random import choice
 
 Characters=['Perry the Platypus','Dave the Sloth']
 Objectives=['has to slay a dragon','has to save the princess']
-Settings=['swamp','ocean','mountain']
+Settings=['swamp','ocean','mountain','forest']
 #name:[attack, speed, charisma]
 Tools={'jetpack':[0.5,4.0,2.0],'stick':[1.0,2.0,0.0],'hammer':[2.5,1.0,1.0],'afro':[-1.0,2.0,6.0],'crowbar':[1.5,2.5,1.5],'sword':[3.0,1.5,2.5],'scythe':[4.0,1.0,-1],'slingshot':[1.0,3.0,0.5]}
 
