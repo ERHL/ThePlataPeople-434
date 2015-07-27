@@ -42,11 +42,13 @@ def store(ct):
 def get(pt):
     store(pt)
     return current_tool
+#Stores the user's current tool that needs to be used later
 
 def newEvent():
     event=choice(EVENTS.keys())
     Event={event:EVENTS[event]}
     return Event
+#Selects a new event from the list
 
 def store_health(ch):
     global current_health
@@ -55,6 +57,7 @@ def store_health(ch):
 def get_health(ph):
     store_health(ph)
     return current_health
+#Stores the user's current health that needs to be used later
 
 if __name__=='__main__':#Print 10 sentences if running this file on its own
     print current_tool
