@@ -38,12 +38,12 @@ def event():
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
     dif=0
-    if request.form['choice']=='Flee':
+    if request.form['choice']=='Run away':
         if act.values()[0][1]>ct.values()[0][1]:
             global ch
             dif=(act.values()[0][1]-ct.values()[0][1])*10
             ch-=dif
-    elif request.form['choice']=='Tool':
+    elif request.form['choice']=='Use tool':
         if act.values()[0][2]==-1:
             if act.values()[0][0]>ct.values()[0][0]:
                 global ch
