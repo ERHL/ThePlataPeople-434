@@ -6,10 +6,10 @@ Settings=['swamp','ocean','mountain']
 #name:[attack, speed, charisma]
 Tools={'jetpack':[0.5,4.0,2.0],'stick':[1.0,2.0,0.0],'hammer':[2.5,1.0,1.0],'afro':[-1.0,2.0,6.0],'crowbar':[1.5,2.5,1.5],'sword':[3.0,1.5,2.5],'scythe':[4.0,1.0,-1],'slingshot':[1.0,3.0,0.5]}
 
-current_tool='stick'
+current_tool={'stick':Tools['stick']}
 current_health=10
 
-EVENTS={'A creepy old man starts following you':[1.0,1.0,-1.0]}
+EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0]}
 
 def char():
     return choice(Characters)+" "
@@ -31,7 +31,7 @@ def storyGen():
 #These functions pick a random item from the possible lists and combines it into a coherent 'story'
 def store(ct):
     global current_tool
-    current_tool=ct
+    current_tool={str(ct):Tools[str(ct)]}
 
 def get(pt):
     store(pt)

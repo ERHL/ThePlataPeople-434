@@ -9,7 +9,7 @@ def root():
     ch=10
     tool=[]
     for i in range(3):
-        tool.append(util.tool())
+        tool.append(util.tool().keys()[0])
     #if random.random()<.1:
         #return render_template('final.html')
     #else:
@@ -22,7 +22,7 @@ def event():
     if request.method=="POST":
         global act
         act=util.newEvent()
-        return render_template('main.html',story=act,instruction='Use your tool or flee',ct=util.get(ct),opt='yes',health=ch,)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,)
     elif request.method=="GET":
         return 'GET'
     else:
@@ -31,15 +31,20 @@ def event():
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
     if request.form['choice']=='Flee':
-        if EVENTS[act][1]>=Tools[ct][1]:
+        if act.values()[0][1]>=ct.values()[0][1]:
             global ch
-            ch-=EVENTS[act][1]-Tools[ct][1]
-            if ch<=0:
-                return render_template('lose.html')
+            ch-=act.values()[0][1]-ct.values()[0][1]
+    elif request.form['choice']=='Tool':
+        if act.values()[0][2]==-1:
+            if act.values()[0][0]>=ct.values()[0][0]:
+                global ch
+                ch-=act.values()[0][0]-ct.values()[0][0]
+    if ch<=0:
+        return render_template('lose.html')
     tool=[]
     for i in range(3):
-        tool.append(util.tool())
-    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct),health=ch)
+        tool.append(util.tool().keys()[0])
+    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch)
 
 if __name__=='__main__':
     app.debug=True
