@@ -3,13 +3,15 @@ from random import choice
 Characters=['Perry the Platypus','Dave the Sloth']
 Objectives=['has to slay a dragon','has to save the princess']
 Settings=['swamp','ocean','mountain','forest']
-#name:[attack, speed, charisma]
-Tools={'jetpack':[0.5,4.0,2.0],'stick':[1.0,2.0,0.0],'hammer':[3.5,1.0,1.0],'afro':[-1.0,2.0,6.0],'crowbar':[1.5,2.5,1.5],'sword':[3.0,1.5,2.5],'scythe':[4.0,1.0,-1],'slingshot':[1.0,3.0,0.5]}
+#name:[attack, speed, scavenging]
+Tools={'jetpack':[0.5,4.0,2.0],'stick':[1.0,2.0,3.0],'hammer':[3.5,1.0,2.0],'afro':[-1.0,2.0,10.0],'crowbar':[1.5,2.5,3.5],'sword':[3.0,1.5,3.5],'scythe':[4.0,1.0,2.5],'slingshot':[1.0,3.0,2.0]}
+#Items={'Health Potion mark 1':5.0,'Health Potion mark 2':10.0}
+Items=['HPmk1','HPmk2']
 
 current_tool={'stick':Tools['stick']}
 current_health=10
 
-EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0]}
+EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0],'A Zombie approaches you':[2.5,1.5,-1],'Grocery Store':[0.0,0.0,3.0]}
 
 def char():
     return choice(Characters)+" "
@@ -28,7 +30,11 @@ def tool():
 def storyGen():
     return char()+obj()+setting()+tool()
 
+def item():
+    return choice(Items)
 #These functions pick a random item from the possible lists and combines it into a coherent 'story'
+
+
 def store(ct):
     global current_tool
     current_tool={str(ct):Tools[str(ct)]}

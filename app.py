@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import util,random
 
 app=Flask(__name__)
@@ -17,8 +17,16 @@ def root():
 
 @app.route('/event',methods=['POST','GET'])
 def event():
-    global ct
-    ct=util.get(request.form['tool'])
+    print request.form
+    if 'item' in request.form:
+        global ch
+        heal=request.form['item']
+        ch+=float(heal[-1])*5
+        if ch>100:
+            ch=100
+    else:
+        global ct
+        ct=util.get(request.form['tool'])
     if request.method=="POST":
         global act
         act=util.newEvent()
@@ -39,12 +47,23 @@ def newtool():
             if act.values()[0][0]>=ct.values()[0][0]:
                 global ch
                 ch-=(act.values()[0][0]-ct.values()[0][0])*10
+        else:
+            if act.values()[0][2]<=ct.values()[0][2]:
+                return redirect('/store')
     if ch<=0:
         return render_template('lose.html')
     tool=[]
     for i in range(3):
         tool.append(util.tool().keys()[0])
     return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch)
+
+@app.route('/store')
+def store():
+    item=[]
+    scav=ct.values()[0][2]-act.values()[0][2]
+    for i in range(int(scav)+1):
+        item.append(util.item())
+    return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch)
 
 if __name__=='__main__':
     app.debug=True
