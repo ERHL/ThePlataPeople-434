@@ -6,14 +6,14 @@ app=Flask(__name__)
 @app.route('/',methods=['POST','GET'])
 def root():
     global ch
-    ch=10
+    ch=100
     tool=[]
     for i in range(3):
         tool.append(util.tool().keys()[0])
     #if random.random()<.1:
         #return render_template('final.html')
     #else:
-    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest.',instruction='What tool do you pick up?',tools=tool, health=util.get_health(10))
+    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest.',instruction='What tool do you pick up?',tools=tool, health=util.get_health(ch))
 
 @app.route('/event',methods=['POST','GET'])
 def event():
@@ -22,7 +22,7 @@ def event():
     if request.method=="POST":
         global act
         act=util.newEvent()
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch)
     elif request.method=="GET":
         return 'GET'
     else:
@@ -33,12 +33,12 @@ def newtool():
     if request.form['choice']=='Flee':
         if act.values()[0][1]>=ct.values()[0][1]:
             global ch
-            ch-=act.values()[0][1]-ct.values()[0][1]
+            ch-=(act.values()[0][1]-ct.values()[0][1])*10
     elif request.form['choice']=='Tool':
         if act.values()[0][2]==-1:
             if act.values()[0][0]>=ct.values()[0][0]:
                 global ch
-                ch-=act.values()[0][0]-ct.values()[0][0]
+                ch-=(act.values()[0][0]-ct.values()[0][0])*10
     if ch<=0:
         return render_template('lose.html')
     tool=[]
