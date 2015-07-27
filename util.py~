@@ -6,7 +6,6 @@ Settings=['swamp','ocean','mountain']
 Tools=['jetpack','stick','hammer','afro','crowbar','sword','wrench','scythe','scimitar','slingshot','ammo']
 
 current_tool='stick'
-current_health=10
 
 EVENTS=['A creepy old man starts following you']
 
@@ -36,14 +35,6 @@ def get(pt):
 
 def newEvent():
     return choice(EVENTS)
-
-def store_health(ch):
-    global current_health
-    current_health=ch
-
-def get_health(ph):
-    store_health(ph)
-    return current_health
 
 if __name__=='__main__':#Print 10 sentences if running this file on its own
     print current_tool
