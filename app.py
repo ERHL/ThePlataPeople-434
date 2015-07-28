@@ -72,8 +72,22 @@ def final():
         ct=util.get('stick')
         return render_template('final.html',health=ch,tool=ct,opt='yes')
     elif request.method=='POST':
-        ch=22
-        ct=util.get('stick')
+        act={'Dragon':[3.0,3.0,-1]}
+        ch=22        
+        ct=util.get('scythe')
+        dif=0
+        if request.form['choice']=='Run away':
+            if act.values()[0][1]>ct.values()[0][1]:#If the user runs away and their speed is lower than the event's, they lose the difference between the event's speed and their speed, times 10
+                global ch
+                dif=(act.values()[0][1]-ct.values()[0][1])*10
+                ch-=dif
+        elif request.form['choice']=='Use tool':#If the user uses tool, and the user's attack is lower than the event's, then the user loses the difference between the event's attack and theirs
+            if act.values()[0][0]>ct.values()[0][0]:
+                global ch
+                dif=(act.values()[0][0]-ct.values()[0][0])*10
+                ch-=dif
+        if ch<=0:
+            return render_template('lose.html')
         return render_template('final.html',health=ch,tool=ct)
 
 if __name__=='__main__':
