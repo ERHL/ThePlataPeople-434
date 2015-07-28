@@ -5,6 +5,8 @@ app=Flask(__name__)
 
 @app.route('/',methods=['POST','GET'])
 def root():
+    global event_number
+    event_number=0
     global ch
     ch=100.0 #Sets health to 100
     tool=[]
@@ -15,6 +17,8 @@ def root():
 
 @app.route('/event',methods=['POST','GET'])
 def event():
+    global event_number
+    event_number+=1
     if 'item' in request.form:
         global ch
         heal=request.form['item']#If an item was just used, increases your health
@@ -36,6 +40,10 @@ def event():
 
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
+    global event_number
+    event_number+=1
+    if event_number>=15:
+        return redirect('/final')
     global dif
     dif=0
     if request.form['choice']=='Run away':
@@ -58,6 +66,8 @@ def newtool():
 
 @app.route('/store')
 def store():
+    global event_number
+    event_number+=1
     item=[]
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     item.append('HPmk0')
@@ -73,7 +83,6 @@ def fight():
         ch-=dif
     enmDif=0
     enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
-    print enmDif
     if enmDif<0.5:
         enmDif=0.5
     act.values()[0][3]-=enmDif
@@ -91,16 +100,18 @@ def fight():
 @app.route('/final',methods=['POST','GET'])
 def final():
     if request.method=='GET':
-        ch=22
-        ct=util.get('stick')
+        global ct
         return render_template('final.html',health=ch,tool=ct,opt='yes',message='yes')
     elif request.method=='POST':
         act={'Dragon':[3.0,3.0,-1,25.0]}
         dh=act.values()[0][3]
         global ch
-        ch=22
         global ct
-        ct=util.get('scythe')
+        enmDif=0
+        enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+        if enmDif<0.5:
+            enmDif=0.5
+        act.values()[0][3]-=enmDif
         dif=0
         if request.form['choice']=='Run away':
             if act.values()[0][1]>ct.values()[0][1]:#If the user runs away and their speed is lower than the event's, they lose the difference between the event's speed and their speed, times 10
@@ -112,15 +123,11 @@ def final():
                 global ch
                 dif=(act.values()[0][0]-ct.values()[0][0])*10
                 ch-=dif
-            else:
-                global dh
-                dif=(ct.values()[0][1]-act.values()[0][1])*10
-                dh-=dif
         if ch<=0:
             return render_template('lose.html')
         elif dh<=0:
             return render_template("final.html",killDrag='yes')
-        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes')
+        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes',enmHealth=(act.values()[0][3])*10)
 
 if __name__=='__main__':
     app.debug=True
