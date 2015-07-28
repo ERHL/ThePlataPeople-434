@@ -6,7 +6,7 @@ app=Flask(__name__)
 @app.route('/',methods=['POST','GET'])
 def root():
     global ch
-    ch=100 #Sets health to 100
+    ch=100.0 #Sets health to 100
     tool=[]
     for i in range(3):
         tool.append(util.tool().keys()[0])#Makes a list of 3 random tools
@@ -60,6 +60,7 @@ def newtool():
 def store():
     item=[]
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
+    item.append('HPmk0')
     for i in range(int(scav)+1):
         item.append(util.item())
     return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10)
@@ -86,6 +87,39 @@ def fight():
         return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You win!",enmHealth=0.0)
 
 
+@app.route('/final',methods=['POST','GET'])
+def final():
+    if request.method=='GET':
+        ch=22
+        ct=util.get('stick')
+        return render_template('final.html',health=ch,tool=ct,opt='yes',message='yes')
+    elif request.method=='POST':
+        act={'Dragon':[3.0,3.0,-1,25.0]}
+        dh=act.values()[0][3]
+        global ch
+        ch=22
+        global ct
+        ct=util.get('scythe')
+        dif=0
+        if request.form['choice']=='Run away':
+            if act.values()[0][1]>ct.values()[0][1]:#If the user runs away and their speed is lower than the event's, they lose the difference between the event's speed and their speed, times 10
+                global ch
+                dif=(act.values()[0][1]-ct.values()[0][1])*10
+                ch-=dif
+        elif request.form['choice']=='Use tool':#If the user uses tool, and the user's attack is lower than the event's, then the user loses the difference between the event's attack and theirs
+            if act.values()[0][0]>ct.values()[0][0]:
+                global ch
+                dif=(act.values()[0][0]-ct.values()[0][0])*10
+                ch-=dif
+            else:
+                global dh
+                dif=(ct.values()[0][1]-act.values()[0][1])*10
+                dh-=dif
+        if ch<=0:
+            return render_template('lose.html')
+        elif dh<=0:
+            return render_template("final.html",killDrag='yes')
+        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes')
 
 if __name__=='__main__':
     app.debug=True
