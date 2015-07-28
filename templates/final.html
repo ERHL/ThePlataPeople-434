@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="container">
+<div id="left">
+<img src="../static/img/platypus.png">
+<h3>Current Health: {{health}}</h3>
+</div>
+<h1>Oh no! Perry the Platypus has a dragon to defend himself and prevent you from saving the princess</h1>
+<form action="/final" method="POST">
+{% for p in tools %}
+<button name="tool" type="submit" value={{p}}>{{p}}</button>
+{% endfor %}
+{% if opt %}
+<input type="submit" name="choice" value="Use tool">
+<input type="submit" name="choice" value="Run away">
+{% endif %}
+</form>
+<h3>Current Tool: {{tool}}</h3>
+
+
+</div>
+{% endblock %}
