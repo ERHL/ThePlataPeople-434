@@ -99,19 +99,21 @@ def fight():
 
 @app.route('/final',methods=['POST','GET'])
 def final():
+    act={'Dragon':[3.0,3.0,-1,25.0]}
     if request.method=='GET':
         global ct
+        global dh
+        dh=act.values()[0][3]
         return render_template('final.html',health=ch,tool=ct,opt='yes',message='yes')
     elif request.method=='POST':
-        act={'Dragon':[3.0,3.0,-1,25.0]}
-        dh=act.values()[0][3]
         global ch
         global ct
         enmDif=0
         enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
         if enmDif<0.5:
             enmDif=0.5
-        act.values()[0][3]-=enmDif
+        global dh
+        dh-=enmDif
         dif=0
         if request.form['choice']=='Run away':
             if act.values()[0][1]>ct.values()[0][1]:#If the user runs away and their speed is lower than the event's, they lose the difference between the event's speed and their speed, times 10
@@ -127,7 +129,7 @@ def final():
             return render_template('lose.html')
         elif dh<=0:
             return render_template("final.html",killDrag='yes')
-        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes',enmHealth=(act.values()[0][3])*10)
+        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes',enmHealth=dh*10)
 
 if __name__=='__main__':
     app.debug=True
