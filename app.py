@@ -19,15 +19,16 @@ def event():
         global ch
         heal=request.form['item']#If an item was just used, increases your health
         ch+=float(heal[-1])*5
-        if ch>100:
-            ch=100#Insures health does not go above 100
+        if ch>100.0:
+            ch=100.0#Insures health does not go above 100
     else:
         global ct
         ct=util.get(request.form['tool'])
     if request.method=="POST":
         global act
+        act={}
         act=util.newEvent()#Makes a global variable with the current event
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
     elif request.method=="GET":#util.get() stores the current tool in util.py
         return 'GET'
     else:
@@ -35,6 +36,7 @@ def event():
 
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
+    global dif
     dif=0
     if request.form['choice']=='Run away':
         if act.values()[0][1]>ct.values()[0][1]:#If the user runs away and their speed is lower than the event's, they lose the difference between the event's speed and their speed, times 10
@@ -42,11 +44,8 @@ def newtool():
             dif=(act.values()[0][1]-ct.values()[0][1])*10
             ch-=dif
     elif request.form['choice']=='Use tool':
-        if act.values()[0][2]==-1:#If the event has no scavenging, and the user uses tool, and the user's attack is lower than the event's, then the user loses the difference between the event's attack and theirs
-            if act.values()[0][0]>ct.values()[0][0]:
-                global ch
-                dif=(act.values()[0][0]-ct.values()[0][0])*10
-                ch-=dif
+        if act.values()[0][2]==-1:#If the event has no scavenging (is a fight), and the user uses tool, redirects to route "/fight"
+            return redirect("/fight")
         else:#If the event has scavenging (is a store) redirects user to /store route
             if act.values()[0][2]<=ct.values()[0][2]:
                 return redirect('/store')
@@ -55,7 +54,7 @@ def newtool():
     tool=[]
     for i in range(3):#Selects 3 new random tools
         tool.append(util.tool().keys()[0])
-    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You lost %s health"%dif)
+    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
 
 @app.route('/store')
 def store():
@@ -63,7 +62,30 @@ def store():
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     for i in range(int(scav)+1):
         item.append(util.item())
-    return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch)
+    return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10)
+
+@app.route("/fight")
+def fight():
+    if act.values()[0][0]>ct.values()[0][0]:
+        global ch
+        dif=(act.values()[0][0]-ct.values()[0][0])*10
+        ch-=dif
+    enmDif=0
+    enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+    if enmDif<0.5:
+        enmDif=0.5
+    act.values()[0][3]-=enmDif
+    if ch<=0:
+        return render_template('lose.html')
+    elif act.values()[0][3]>0:
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+    else:
+        tool=[]
+        for i in range(3):#Selects 3 new random tools
+            tool.append(util.tool().keys()[0])
+        return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You win!",enmHealth=0.0)
+
+
 
 if __name__=='__main__':
     app.debug=True

@@ -11,7 +11,7 @@ Items=['HPmk1','HPmk2']
 current_tool={'stick':Tools['stick']}
 current_health=10
 
-EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0],'A Zombie approaches you':[2.5,1.5,-1],'Grocery Store':[0.0,0.0,3.0]}
+EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}
 
 def char():
     return choice(Characters)+" "
