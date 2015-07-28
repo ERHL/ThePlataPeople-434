@@ -62,7 +62,7 @@ def store():
     item=[]
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     for i in range(int(scav)+1):
-        item.append(util.item())
+        item.append('HPmk'+str(i+1))
     return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch)
 
 if __name__=='__main__':
