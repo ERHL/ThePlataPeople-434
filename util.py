@@ -11,7 +11,7 @@ Items=['HPmk1','HPmk2']
 current_tool={'stick':Tools['stick']}
 current_health=10
 
-EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}
+#EVENTS={'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}
 
 def char():
     return choice(Characters)+" "
@@ -45,8 +45,8 @@ def get(pt):
 #Stores the user's current tool that needs to be used later
 
 def newEvent():
-    event=choice(EVENTS.keys())
-    Event={event:EVENTS[event]}
+    event=choice({'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}.keys())
+    Event={event:{'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}[event]}
     return Event
 #Selects a new event from the list
 
