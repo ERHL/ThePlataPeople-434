@@ -65,6 +65,17 @@ def store():
         item.append('HPmk'+str(i+1))
     return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch)
 
+@app.route('/final',methods=['POST','GET'])
+def final():
+    if request.method=='GET':
+        ch=22
+        ct=util.get('stick')
+        return render_template('final.html',health=ch,tool=ct,opt='yes')
+    elif request.method=='POST':
+        ch=22
+        ct=util.get('stick')
+        return render_template('final.html',health=ch,tool=ct)
+
 if __name__=='__main__':
     app.debug=True
     app.run(host='0.0.0.0')
