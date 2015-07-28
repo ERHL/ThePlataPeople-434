@@ -62,7 +62,7 @@ def store():
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     item.append('HPmk0')
     for i in range(int(scav)+1):
-        item.append(util.item())
+        item.append("HPmk"+i)
     return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route("/fight")
@@ -73,6 +73,7 @@ def fight():
         ch-=dif
     enmDif=0
     enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+    print enmDif
     if enmDif<0.5:
         enmDif=0.5
     act.values()[0][3]-=enmDif
