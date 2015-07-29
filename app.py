@@ -38,6 +38,27 @@ def useItem():
         ct=util.get(ct.keys()[0])
         return render_template('main.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],enmHealth=(act.values()[0][3])*10)
 
+@app.route('/invBoss',methods=['POST','GET'])
+def useItem():
+    global ct
+    if inv==[]:
+        inv.append("HPmk0")
+    if request.method=="POST":
+        global ch
+        heal=request.form['itemUsed']#If an item was just used, increases your health
+        inv.remove(heal)
+        restore=float(heal[-1])*5
+        if restore != 0:
+            ch+=restore+5
+        if ch>100.0:
+            ch=100.0#Insures health does not go above 100
+        global itemUsed
+        itemUsed=True
+        return redirect("/final")
+    elif request.method=="GET":
+        ct=util.get(ct.keys()[0])
+        return render_template('final.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],enmHealth=(act.values()[0][3])*10)
+
 @app.route('/event',methods=['POST','GET'])
 def event():
     if 'item' in request.form:
@@ -171,6 +192,8 @@ def final():
                     enmDif=0.5
                 global dh
                 dh-=enmDif
+        elif request.form['choice']="Use potion":
+            return redirect("/invBoss")
         if ch<=0:
             return render_template('lose.html')
         elif dh<=0:

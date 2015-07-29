@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import util,random
-inv=[]
+inv=["HPmk0"]
 
 app=Flask(__name__)
 
@@ -38,6 +38,27 @@ def useItem():
         ct=util.get(ct.keys()[0])
         return render_template('main.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],enmHealth=(act.values()[0][3])*10)
 
+@app.route('/invBoss',methods=['POST','GET'])
+def useItem():
+    global ct
+    if inv==[]:
+        inv.append("HPmk0")
+    if request.method=="POST":
+        global ch
+        heal=request.form['itemUsed']#If an item was just used, increases your health
+        inv.remove(heal)
+        restore=float(heal[-1])*5
+        if restore != 0:
+            ch+=restore+5
+        if ch>100.0:
+            ch=100.0#Insures health does not go above 100
+        global itemUsed
+        itemUsed=True
+        return redirect("/final")
+    elif request.method=="GET":
+        ct=util.get(ct.keys()[0])
+        return render_template('final.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],enmHealth=(act.values()[0][3])*10)
+
 @app.route('/event',methods=['POST','GET'])
 def event():
     if 'item' in request.form:
@@ -72,6 +93,8 @@ def newtool():
             ch-=dif
     elif request.form['choice']=='Use tool':
         if act.values()[0][2]==-1:#If the event has no scavenging (is a fight), and the user uses tool, redirects to route "/fight"
+            global itemUsed
+            itemUsed=False
             return redirect("/fight")
         else:#If the event has scavenging (is a store) redirects user to /store route
             if act.values()[0][2]<=ct.values()[0][2]:
@@ -90,26 +113,34 @@ def newtool():
 @app.route('/store')
 def store():
     global ct
+    try:
+        ct
+    except NameError:
+        return redirect('/')
     item=[]
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     item.append('HPmk0')
     for i in range(int(scav)+1):
         item.append("HPmk"+str(i+1))
     ct=util.get(ct.keys()[0])
-    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0],spd=ct.values()[1],scav=ct.values()[2],health=ch,enmHealth=(act.values()[0][3])*10)
+    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route("/fight")
 def fight():
     global ct
-    if act.values()[0][0]>ct.values()[0][0]:
-        global ch
-        dif=(act.values()[0][0]-ct.values()[0][0])*10
-        ch-=dif
-    enmDif=0
-    enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
-    if enmDif<0.5:
-        enmDif=0.5
-    act.values()[0][3]-=enmDif
+    global itemUsed
+    if itemUsed==False:
+        if act.values()[0][0]>ct.values()[0][0]:
+            global ch
+            dif=(act.values()[0][0]-ct.values()[0][0])*10
+            ch-=dif
+        else:
+            ch-=5
+        enmDif=0
+        enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+        if enmDif<0.5:
+            enmDif=0.5
+        act.values()[0][3]-=enmDif
     if ch<=0:
         return render_template('lose.html')
     elif act.values()[0][3]>0:
@@ -139,7 +170,7 @@ def final():
         global ct
         global dh
         dh=act.values()[0][3]
-        return render_template('final.html',health=ch,tool=ct,opt='yes',message='yes',enmHealth=dh*10)
+        return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',message='yes',enmHealth=dh*10)
     elif request.method=='POST':
         global ch
         global ct
@@ -165,14 +196,12 @@ def final():
             return render_template('lose.html')
         elif dh<=0:
             return render_template("final.html",killDrag='yes')
-        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
+        return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
 
 @app.route('/<url>')
 def error(url):
     return redirect('/')
 
-
 if __name__=='__main__':
     app.debug=True
     app.run(host='0.0.0.0')
-
