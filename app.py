@@ -19,6 +19,7 @@ def root():
 
 @app.route('/inv',methods=['POST','GET'])
 def useItem():
+    global ct
     if inv==[]:
         inv.append("HPmk0")
     if request.method=="POST":
@@ -35,12 +36,12 @@ def useItem():
         return redirect("/fight")
     elif request.method=="GET":
         ct=util.get(ct.keys()[0])
-        return render_template('main.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0],spd=ct.values()[1],scav=ct.values()[2],enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],enmHealth=(act.values()[0][3])*10)
 
 @app.route('/event',methods=['POST','GET'])
 def event():
     if 'item' in request.form:
-        inv.append(request.form['item']
+        inv.append(request.form['item'])
     else:
         global ct
         ct=util.get(request.form['tool'])
@@ -88,6 +89,7 @@ def newtool():
 
 @app.route('/store')
 def store():
+    global ct
     item=[]
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     item.append('HPmk0')
