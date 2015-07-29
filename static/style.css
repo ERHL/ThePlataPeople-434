@@ -1,5 +1,5 @@
 body{
-    background-color:#3C4C06;
+    background-color:#3A4E54;
 }
 
 p, h1, h2, h3, h4, h5, h6{
@@ -22,7 +22,8 @@ img{
 }
 
 #man {
-    float:right;
-    padding-top:500px;
+    position:absolute;
+    bottom:2px;
+    right:2px;
 }
 /*#596869, #59A96A, #9BDEAC */
