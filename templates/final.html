@@ -7,11 +7,12 @@
 <img src="../static/img/platypus.png">
 <h3>Current Health: {{health}}</h3>
 <h3>Enemy Health: {{enmHealth}}</h3>
+<br><br><br><br><br><br><br><br>
 </div>
 {% if message %}
 <h1>Oh no! Perry the Platypus has a dragon to defend himself and prevent you from saving the princess</h1>
 {% endif %}
-{% if killDrag %}
+{% if killDrag=="yes" %}
 <h1>You defeated the Dragon! However, Perry now has a riddle for you. You've saved the princess, however, you should give the riddle your best try.</h1>
 <h2>A group of people with assorted eye colors live on an island. They are all perfect logicians -- if a conclusion can be logically deduced, they will do it instantly. No one knows the color of their eyes. Every night at midnight, a ferry stops at the island. Any islanders who have figured out the color of their own eyes then leave the island, and the rest stay. Everyone can see everyone else at all times and keeps a count of the number of people they see with each eye color (excluding themselves), but they cannot otherwise communicate. Everyone on the island knows all the rules in this paragraph.
 <br
@@ -22,6 +23,9 @@ The Guru is allowed to speak once (let's say at noon), on one day in all their e
 "I can see someone who has blue eyes."
 <br>
 Who leaves the island, and on what night?</h2>
+<form action="/" method="POST">
+<input type="submit" value="Restart">
+</form>
 {% endif %}
 <form action="/final" method="POST">
 {% for p in tools %}
@@ -32,8 +36,9 @@ Who leaves the island, and on what night?</h2>
 <input type="submit" name="choice" value="Run away">
 {% endif %}
 </form>
+{% if dragKill=="no" %}
 <h3>Current Tool: {{tool}}</h3>
-
+{% endif %}
 
 </div>
 {% endblock %}
