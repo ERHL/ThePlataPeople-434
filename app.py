@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import util,random
-inv=[]
+inv=["HPmk0"]
 
 app=Flask(__name__)
 
@@ -72,6 +72,8 @@ def newtool():
             ch-=dif
     elif request.form['choice']=='Use tool':
         if act.values()[0][2]==-1:#If the event has no scavenging (is a fight), and the user uses tool, redirects to route "/fight"
+            global itemUsed
+            itemUsed=False
             return redirect("/fight")
         else:#If the event has scavenging (is a store) redirects user to /store route
             if act.values()[0][2]<=ct.values()[0][2]:
@@ -105,17 +107,19 @@ def store():
 @app.route("/fight")
 def fight():
     global ct
-    if act.values()[0][0]>ct.values()[0][0]:
-        global ch
-        dif=(act.values()[0][0]-ct.values()[0][0])*10
-        ch-=dif
-    else:
-        ch-=5
-    enmDif=0
-    enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
-    if enmDif<0.5:
-        enmDif=0.5
-    act.values()[0][3]-=enmDif
+    global itemUsed
+    if itemUsed==False:
+        if act.values()[0][0]>ct.values()[0][0]:
+            global ch
+            dif=(act.values()[0][0]-ct.values()[0][0])*10
+            ch-=dif
+        else:
+            ch-=5
+        enmDif=0
+        enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+        if enmDif<0.5:
+            enmDif=0.5
+        act.values()[0][3]-=enmDif
     if ch<=0:
         return render_template('lose.html')
     elif act.values()[0][3]>0:
