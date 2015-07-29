@@ -114,7 +114,7 @@ def fight():
         global event_number
         event_number+=1
         if event_number>=15:
-        return redirect('/final')
+            return redirect('/final')
         tool.append(ct.keys()[0])
         return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You win!",enmHealth=0.0)
 
