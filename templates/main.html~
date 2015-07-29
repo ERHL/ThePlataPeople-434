@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
 <div id="container">
 <div id="left">
 <img src="../static/img/sloth.jpg">
 <h3>Current Health: {{health}}</h3>
 <h3>Enemy Health: {{enmHealth}}</h3>
-<div style = "float:right">
+</div>
+<div id="man">
   <br>
   <h1>Adventurers Manual</h1>
   <p>Your current weapon, the {{ct}}, <br>
 has an attack value of {{att}}, <br> 
-a speed of {{spd}}, <br>s
+a speed of {{spd}}, <br>
 and a scavenging value of {{scav}}</p>
-</div>
 </div>
 <div id="center">
 <h1>{{action}}</h1>
@@ -22,9 +21,6 @@ and a scavenging value of {{scav}}</p>
 <h2>{{story}}</h2>
 <h3>{{instruction}}</h3>
 <form action="/event" method="POST">
-{% for p in tools %}
-<button name="tool" type="submit" value={{p}}>{{p}}</button>
-{% endfor %}
 {% for p in items %}
 <button name="item" type="submit" value={{p}}>{{p}}</button>
 {% endfor %}
@@ -36,8 +32,12 @@ and a scavenging value of {{scav}}</p>
 <input type="submit" name="choice" value="Run away">
 </form>
 {% endif %}
+<form action="/event" method="POST">
+{% for p in tools %}
+<button name="tool" type="submit" value={{p}}>{{p}}</button>
+{% endfor %}
+</form>
 <h4 id="result"></h4>
 </div>
 </div>
-</body>
 {% endblock %}
