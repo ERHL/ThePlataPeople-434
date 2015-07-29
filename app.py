@@ -24,7 +24,9 @@ def useItem():
         global ch
         heal=request.form['itemUsed']#If an item was just used, increases your health
         inv.remove(heal)
-        ch+=float(heal[-1])*5
+        restore=float(heal[-1])*5
+        if restore != 0:
+            ch+=restore+5
         if ch>100.0:
             ch=100.0#Insures health does not go above 100
         global itemUsed
