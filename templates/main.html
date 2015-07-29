@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
 <div id="container">
 <div id="left">
 <img src="../static/img/sloth.jpg">
 <h3>Current Health: {{health}}</h3>
 <h3>Enemy Health: {{enmHealth}}</h3>
-<div style = "float:right">
+<div id="man">
   <br>
   <h1>Adventurers Manual</h1>
   <p>Your current weapon, the {{ct}}, <br>
@@ -39,5 +38,4 @@ and a scavenging value of {{scav}}</p>
 <h4 id="result"></h4>
 </div>
 </div>
-</body>
 {% endblock %}
