@@ -1,9 +1,10 @@
 body{
-    background-color:#36453B;
+    background-color:#3C4C06;
 }
 
-h1, h2, h3, h4, h5, h6{
-    color:#9796A1;
+p, h1, h2, h3, h4, h5, h6{
+    color:#59A96A;
+    font-size:150%;
 }
 
 #left{
@@ -22,5 +23,6 @@ img{
 
 #man {
     float:right;
+    padding-top:500px;
 }
 /*#596869, #59A96A, #9BDEAC */
