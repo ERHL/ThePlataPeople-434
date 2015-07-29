@@ -37,8 +37,6 @@ def useItem():
 
 @app.route('/event',methods=['POST','GET'])
 def event():
-    global event_number
-    event_number+=1
     if 'item' in request.form:
         global ch
         heal=request.form['item']#If an item was just used, increases your health
@@ -62,8 +60,6 @@ def event():
 def newtool():
     if request.method=='GET':
         return rediect('/')
-    global event_number
-    event_number+=1
     if event_number>=15:
         return redirect('/final')
     global dif
@@ -84,12 +80,11 @@ def newtool():
     tool=[]
     for i in range(3):#Selects 3 new random tools
         tool.append(util.tool().keys()[0])
+    tool.append(ct.keys()[0])
     return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
 
 @app.route('/store')
 def store():
-    global event_number
-    event_number+=1
     item=[]
     scav=ct.values()[0][2]-act.values()[0][2]#sets the value of scav to the user's scavenging minus the event's scavenging and generates that number of options for potions
     item.append('HPmk0')
@@ -116,6 +111,11 @@ def fight():
         tool=[]
         for i in range(3):#Selects 3 new random tools
             tool.append(util.tool().keys()[0])
+        global event_number
+        event_number+=1
+        if event_number>=15:
+        return redirect('/final')
+        tool.append(ct.keys()[0])
         return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You win!",enmHealth=0.0)
 
 
