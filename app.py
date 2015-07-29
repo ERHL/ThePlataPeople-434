@@ -75,6 +75,8 @@ def newtool():
         else:#If the event has scavenging (is a store) redirects user to /store route
             if act.values()[0][2]<=ct.values()[0][2]:
                 return redirect('/store')
+    elif request.form['choice']=='Use potion':
+        return redirect("/inv")
     if ch<=0:
         return render_template('lose.html')
     tool=[]
