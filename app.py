@@ -39,7 +39,7 @@ def useItem():
         return render_template('main.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],enmHealth=(act.values()[0][3])*10)
 
 @app.route('/invBoss',methods=['POST','GET'])
-def useItem():
+def invBoss():
     global ct
     if inv==[]:
         inv.append("HPmk0")
