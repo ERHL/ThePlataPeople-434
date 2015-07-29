@@ -64,6 +64,7 @@ def newtool():
     tool=[]
     for i in range(3):#Selects 3 new random tools
         tool.append(util.tool().keys()[0])
+    tool.append(ct.keys()[0])
     return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
 
 @app.route('/store')
@@ -96,6 +97,7 @@ def fight():
         tool=[]
         for i in range(3):#Selects 3 new random tools
             tool.append(util.tool().keys()[0])
+        tool.append(ct.keys()[0])
         return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You win!",enmHealth=0.0)
 
 
