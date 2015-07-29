@@ -13,7 +13,7 @@ def root():
     tool=[]
     for i in range(3):
         tool.append(util.tool().keys()[0])#Makes a list of 3 random tools
-    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest.',instruction='What tool do you pick up?',tools=tool, health=util.get_health(ch))
+    return render_template('main.html',story='Dave the superstar sloth has to save the princess in a forest.',instruction='What tool do you pick up?',tools=tool, health=util.get_health(ch),enmHealth=0.0)
 #Loads main.html with the variables filled in
 
 
@@ -72,8 +72,6 @@ def newtool():
             ch-=dif
     elif request.form['choice']=='Use tool':
         if act.values()[0][2]==-1:#If the event has no scavenging (is a fight), and the user uses tool, redirects to route "/fight"
-            global itemUsed
-            itemUsed=False
             return redirect("/fight")
         else:#If the event has scavenging (is a store) redirects user to /store route
             if act.values()[0][2]<=ct.values()[0][2]:
@@ -98,23 +96,20 @@ def store():
     for i in range(int(scav)+1):
         item.append("HPmk"+str(i+1))
     ct=util.get(ct.keys()[0])
-    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],health=ch,enmHealth=(act.values()[0][3])*10)
+    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0],spd=ct.values()[1],scav=ct.values()[2],health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route("/fight")
 def fight():
     global ct
-    if itemUsed==False:
-        if act.values()[0][0]>ct.values()[0][0]:
-            global ch
-            dif=(act.values()[0][0]-ct.values()[0][0])*10
-            ch-=dif
-        else:
-            ch-=5
-        enmDif=0
-        enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
-        if enmDif<0.5:
-            enmDif=0.5
-        act.values()[0][3]-=enmDif
+    if act.values()[0][0]>ct.values()[0][0]:
+        global ch
+        dif=(act.values()[0][0]-ct.values()[0][0])*10
+        ch-=dif
+    enmDif=0
+    enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+    if enmDif<0.5:
+        enmDif=0.5
+    act.values()[0][3]-=enmDif
     if ch<=0:
         return render_template('lose.html')
     elif act.values()[0][3]>0:
