@@ -33,7 +33,8 @@ def useItem():
         itemUsed=True
         return redirect("/fight")
     elif request.method=="GET":
-        return render_template('main.html',itemInv=inv,ct=util.get(ct.keys()[0]).keys()[0],health=ch,enmHealth=(act.values()[0][3])*10)
+        ct=util.get(ct.keys()[0])
+        return render_template('main.html',itemInv=inv,ct=ct.keys()[0],health=ch,att=ct.values()[0],spd=ct.values()[1],scav=ct.values()[2],enmHealth=(act.values()[0][3])*10)
 
 @app.route('/event',methods=['POST','GET'])
 def event():
@@ -50,7 +51,8 @@ def event():
         global act
         act={}
         act=util.newEvent()#Makes a global variable with the current event
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]).keys()[0],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        ct=util.get(ct.keys()[0])
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
     elif request.method=="GET":#util.get() stores the current tool in util.py
         return redirect('/')
     else:
@@ -58,6 +60,7 @@ def event():
 
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
+    global ct
     if request.method=='GET':
         return rediect('/')
     if event_number>=15:
@@ -81,7 +84,8 @@ def newtool():
     for i in range(3):#Selects 3 new random tools
         tool.append(util.tool().keys()[0])
     tool.append(ct.keys()[0])
-    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]).keys()[0],health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
+    ct=util.get(ct.keys()[0])
+    return render_template('main.html',story='Pick a new tool',tools=tool,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
 
 @app.route('/store')
 def store():
@@ -90,16 +94,16 @@ def store():
     item.append('HPmk0')
     for i in range(int(scav)+1):
         item.append("HPmk"+str(i+1))
-    return render_template('main.html',items=item,ct=util.get(ct.keys()[0]).keys()[0],health=ch,enmHealth=(act.values()[0][3])*10)
+    ct=util.get(ct.keys()[0])
+    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0],spd=ct.values()[1],scav=ct.values()[2],health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route("/fight")
 def fight():
+    global ct
     if act.values()[0][0]>ct.values()[0][0]:
         global ch
         dif=(act.values()[0][0]-ct.values()[0][0])*10
         ch-=dif
-    else:
-        ch-=5
     enmDif=0
     enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
     if enmDif<0.5:
@@ -108,7 +112,8 @@ def fight():
     if ch<=0:
         return render_template('lose.html')
     elif act.values()[0][3]>0:
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]).keys()[0],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        ct=util.get(ct.keys()[0])
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
     else:
         tool=[]
         for i in range(3):#Selects 3 new random tools
@@ -118,7 +123,8 @@ def fight():
         if event_number>=15:
             return redirect('/final')
         tool.append(ct.keys()[0])
-        return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]).keys()[0],health=ch,action="You win!",enmHealth=0.0)
+        ct=util.get(ct.keys()[0])
+        return render_template('main.html',story='Pick a new tool',tools=tool,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],health=ch,action="You win!",enmHealth=0.0)
 
 
 @app.route('/final',methods=['POST','GET'])
