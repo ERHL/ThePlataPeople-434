@@ -33,7 +33,7 @@ def useItem():
         itemUsed=True
         return redirect("/fight")
     elif request.method=="GET":
-        return render_template('main.html',itemInv=inv,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',itemInv=inv,ct=util.get(ct.keys()[0]).keys()[0],health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route('/event',methods=['POST','GET'])
 def event():
@@ -50,7 +50,7 @@ def event():
         global act
         act={}
         act=util.newEvent()#Makes a global variable with the current event
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]).keys()[0],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
     elif request.method=="GET":#util.get() stores the current tool in util.py
         return redirect('/')
     else:
@@ -81,7 +81,7 @@ def newtool():
     for i in range(3):#Selects 3 new random tools
         tool.append(util.tool().keys()[0])
     tool.append(ct.keys()[0])
-    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
+    return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]).keys()[0],health=ch,enmHealth=(act.values()[0][3])*10,action="You lost %s health"%dif)
 
 @app.route('/store')
 def store():
@@ -90,7 +90,7 @@ def store():
     item.append('HPmk0')
     for i in range(int(scav)+1):
         item.append("HPmk"+str(i+1))
-    return render_template('main.html',items=item,ct=util.get(ct.keys()[0]),health=ch,enmHealth=(act.values()[0][3])*10)
+    return render_template('main.html',items=item,ct=util.get(ct.keys()[0]).keys()[0],health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route("/fight")
 def fight():
@@ -106,7 +106,7 @@ def fight():
     if ch<=0:
         return render_template('lose.html')
     elif act.values()[0][3]>0:
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]).keys()[0],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
     else:
         tool=[]
         for i in range(3):#Selects 3 new random tools
@@ -116,7 +116,7 @@ def fight():
         if event_number>=15:
             return redirect('/final')
         tool.append(ct.keys()[0])
-        return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]),health=ch,action="You win!",enmHealth=0.0)
+        return render_template('main.html',story='Pick a new tool',tools=tool,ct=util.get(ct.keys()[0]).keys()[0],health=ch,action="You win!",enmHealth=0.0)
 
 
 @app.route('/final',methods=['POST','GET'])
