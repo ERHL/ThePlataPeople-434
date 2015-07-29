@@ -45,8 +45,8 @@ def get(pt):
 #Stores the user's current tool that needs to be used later
 
 def newEvent():
-    event=choice({'You encounter an air elemental':[1.5,10.0,-1.0,2.0],'A large bear jumps out of the trees':[3.0,2.0,-1.0,5.0],'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}.keys())
-    Event={event:{'You encounter an air elemental':[1.5,10.0,-1.0,2.0],'A large bear jumps out of the trees':[3.0,2.0,-1.0,5.0],'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0]}[event]}
+    event=choice({'You encounter an air elemental':[1.5,10.0,-1.0,2.0],'A large bear jumps out of the trees':[3.0,2.0,-1.0,5.0],'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0],'A pirate attacks you':[2.5,2.5,-1,3.5]}.keys())
+    Event={event:{'You encounter an air elemental':[1.5,10.0,-1.0,2.0],'A large bear jumps out of the trees':[3.0,2.0,-1.0,5.0],'A creepy old man starts following you':[1.0,1.5,-1.0,1.0],'A Zombie approaches you':[2.5,1.5,-1,3.0],'You find an abandoned grocery store':[0.0,0.0,3.0,0.0],'A pirate attacks you':[2.5,2.5,-1,3.5]}[event]}
     return Event
 #Selects a new event from the list
 

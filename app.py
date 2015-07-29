@@ -34,12 +34,14 @@ def event():
         act=util.newEvent()#Makes a global variable with the current event
         return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=util.get(ct.keys()[0]),opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
     elif request.method=="GET":#util.get() stores the current tool in util.py
-        return 'GET'
+        return redirect('/')
     else:
         return 'yo'
 
 @app.route('/newtool', methods=['POST','GET'])
 def newtool():
+    if request.method=='GET':
+        return rediect('/')
     global event_number
     event_number+=1
     if event_number>=15:
@@ -99,6 +101,10 @@ def fight():
 
 @app.route('/final',methods=['POST','GET'])
 def final():
+    try:
+        ct
+    except NameError:
+        return redirect('/')
     act={'Dragon':[3.0,3.0,-1,25.0]}
     if request.method=='GET':
         global ct
@@ -131,6 +137,11 @@ def final():
         elif dh<=0:
             return render_template("final.html",killDrag='yes')
         return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
+
+@app.route('/<url>')
+def error(url):
+    return redirect('/')
+
 
 if __name__=='__main__':
     app.debug=True
