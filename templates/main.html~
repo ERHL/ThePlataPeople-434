@@ -12,7 +12,7 @@
   <h1>Adventurers Manual</h1>
   <p>Your current weapon, the {{ct}}, <br>
 has an attack value of {{att}}, <br> 
-a speed of {{spd}}, <br>
+a speed of {{spd}}, <br>s
 and a scavenging value of {{scav}}</p>
 </div>
 </div>
