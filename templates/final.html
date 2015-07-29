@@ -9,8 +9,17 @@
 <h3>Enemy Health: {{enmHealth}}</h3>
 <br><br><br><br><br><br><br><br>
 </div>
+<div id="man">
+  <br>
+  <h1>Adventurers Manual</h1>
+  <p>Your current weapon, the {{ct}}, <br>
+has an attack value of {{att}}, <br>
+a speed of {{spd}}, <br>
+and a scavenging value of {{scav}}</p>
+</div>
 {% if message %}
 <h1>Oh no! Perry the Platypus has a dragon to defend himself and prevent you from saving the princess</h1>
+<h4>Current Tool: {{ct}}</h4>
 {% endif %}
 {% if killDrag=="yes" %}
 <h1>You defeated the Dragon! However, Perry now has a riddle for you. You've saved the princess, however, you should give the riddle your best try.</h1>

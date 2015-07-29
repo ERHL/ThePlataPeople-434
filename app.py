@@ -149,7 +149,7 @@ def final():
         global ct
         global dh
         dh=act.values()[0][3]
-        return render_template('final.html',health=ch,tool=ct,opt='yes',message='yes',enmHealth=dh*10)
+        return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',message='yes',enmHealth=dh*10)
     elif request.method=='POST':
         global ch
         global ct
@@ -175,14 +175,12 @@ def final():
             return render_template('lose.html')
         elif dh<=0:
             return render_template("final.html",killDrag='yes')
-        return render_template('final.html',health=ch,tool=ct,message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
+        return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
 
 @app.route('/<url>')
 def error(url):
     return redirect('/')
 
-
 if __name__=='__main__':
     app.debug=True
     app.run(host='0.0.0.0')
-
