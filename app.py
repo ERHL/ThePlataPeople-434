@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import util,random
+inv=[]
 
 app=Flask(__name__)
 
@@ -39,11 +40,7 @@ def useItem():
 @app.route('/event',methods=['POST','GET'])
 def event():
     if 'item' in request.form:
-        global ch
-        heal=request.form['item']#If an item was just used, increases your health
-        ch+=float(heal[-1])*5
-        if ch>100.0:
-            ch=100.0#Insures health does not go above 100
+        inv.append(request.form['item']
     else:
         global ct
         ct=util.get(request.form['tool'])
@@ -78,6 +75,8 @@ def newtool():
         else:#If the event has scavenging (is a store) redirects user to /store route
             if act.values()[0][2]<=ct.values()[0][2]:
                 return redirect('/store')
+    elif request.form['choice']=='Use potion':
+        return redirect("/inv")
     if ch<=0:
         return render_template('lose.html')
     tool=[]
