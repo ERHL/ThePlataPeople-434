@@ -98,6 +98,8 @@ def fight():
         global ch
         dif=(act.values()[0][0]-ct.values()[0][0])*10
         ch-=dif
+    else:
+        ch-=5
     enmDif=0
     enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
     if enmDif<0.5:
