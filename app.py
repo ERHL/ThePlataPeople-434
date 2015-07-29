@@ -98,7 +98,7 @@ def store():
     for i in range(int(scav)+1):
         item.append("HPmk"+str(i+1))
     ct=util.get(ct.keys()[0])
-    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0],spd=ct.values()[1],scav=ct.values()[2],health=ch,enmHealth=(act.values()[0][3])*10)
+    return render_template('main.html',items=item,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],health=ch,enmHealth=(act.values()[0][3])*10)
 
 @app.route("/fight")
 def fight():
