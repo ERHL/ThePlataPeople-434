@@ -192,7 +192,7 @@ def final():
                     enmDif=0.5
                 global dh
                 dh-=enmDif
-        elif request.form['choice']="Use potion":
+        elif request.form['choice']=="Use potion":
             return redirect("/invBoss")
         if ch<=0:
             return render_template('lose.html')
