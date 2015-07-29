@@ -40,7 +40,7 @@ def useItem():
 @app.route('/event',methods=['POST','GET'])
 def event():
     if 'item' in request.form:
-        inv.append(request.form['item']
+        inv.append(request.form['item'])
     else:
         global ct
         ct=util.get(request.form['tool'])
