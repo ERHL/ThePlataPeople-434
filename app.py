@@ -135,7 +135,7 @@ def fight():
             dif=(act.values()[0][0]-ct.values()[0][0])*10
             ch-=dif
         else:
-            ch-=5
+            ch-=2.5
         enmDif=0
         enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
         if enmDif<0.5:
@@ -192,6 +192,8 @@ def final():
                     enmDif=0.5
                 global dh
                 dh-=enmDif
+                global ch
+                ch-=2.5
         elif request.form['choice']=="Use potion":
             return redirect("/invBoss")
         if ch<=0:
