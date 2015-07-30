@@ -152,7 +152,7 @@ def fight():
             tool.append(util.tool().keys()[0])
         global event_number
         event_number+=1
-        if event_number>=15:
+        if event_number>=10:
             return redirect('/final')
         tool.append(ct.keys()[0])
         ct=util.get(ct.keys()[0])
