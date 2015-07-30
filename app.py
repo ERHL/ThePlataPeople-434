@@ -49,7 +49,7 @@ def invBoss():
         inv.remove(heal)
         restore=float(heal[-1])*5
         if restore != 0:
-            ch+=restore+5
+            ch+=restore+10
         if ch>100.0:
             ch=100.0#Insures health does not go above 100
         global itemUsed

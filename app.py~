@@ -145,14 +145,14 @@ def fight():
         return render_template('lose.html')
     elif act.values()[0][3]>0:
         ct=util.get(ct.keys()[0])
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10,photo=act.values()[0][4])
     else:
         tool=[]
         for i in range(3):#Selects 3 new random tools
             tool.append(util.tool().keys()[0])
         global event_number
         event_number+=1
-        if event_number>=15:
+        if event_number>=10:
             return redirect('/final')
         tool.append(ct.keys()[0])
         ct=util.get(ct.keys()[0])
