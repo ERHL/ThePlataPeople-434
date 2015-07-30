@@ -71,7 +71,7 @@ def event():
         act={}
         act=util.newEvent()#Makes a global variable with the current event
         ct=util.get(ct.keys()[0])
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10,photo=act.values()[0][4])
     elif request.method=="GET":#util.get() stores the current tool in util.py
         return redirect('/')
     else:
@@ -145,7 +145,7 @@ def fight():
         return render_template('lose.html')
     elif act.values()[0][3]>0:
         ct=util.get(ct.keys()[0])
-        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10)
+        return render_template('main.html',story=act.keys()[0],instruction='Use your tool or flee',ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',health=ch,enmHealth=(act.values()[0][3])*10,photo=act.values()[0][4])
     else:
         tool=[]
         for i in range(3):#Selects 3 new random tools
