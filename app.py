@@ -202,6 +202,48 @@ def final():
             return render_template("final.html",killDrag='yes')
         return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
 
+@app.route('/finaltest',methods=['POST','GET'])
+def finaltest():
+    ct=util.get('scythe')
+    ch=100
+    act={'Dragon':[3.0,3.0,-1,25.0]}
+    if request.method=='GET':
+        global ct
+        global dh
+        dh=act.values()[0][3]
+        return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],opt='yes',message='yes',enmHealth=dh*10)
+    elif request.method=='POST':
+        global ch
+        global ct
+        dif=0
+        if request.form['choice']=='Run away':
+            if act.values()[0][1]>ct.values()[0][1]:#If the user runs away and their speed is lower than the event's, they lose the difference between the event's speed and their speed, times 10
+                global ch
+                dif=(act.values()[0][1]-ct.values()[0][1])*10
+                ch-=dif
+        elif request.form['choice']=='Use tool':#If the user uses tool, and the user's attack is lower than the event's, then the user loses the difference between the event's attack and theirs
+            if act.values()[0][0]>ct.values()[0][0]:
+                global ch
+                dif=(act.values()[0][0]-ct.values()[0][0])*10
+                ch-=dif
+            else:
+                enmDif=0
+                enmDif=(ct.values()[0][0]-act.values()[0][0])+0.5
+                if enmDif<0.5:
+                    enmDif=0.5
+                global dh
+                dh-=enmDif
+                global ch
+                ch-=2.5
+        elif request.form['choice']=="Use potion":
+            return redirect("/invBoss")
+        if ch<=0:
+            return render_template('lose.html')
+        elif dh<=0:
+            return render_template("final.html",killDrag='yes')
+        return render_template('final.html',health=ch,ct=ct.keys()[0],att=ct.values()[0][0],spd=ct.values()[0][1],scav=ct.values()[0][2],message='yes',opt='yes',enmHealth=dh*10,killDrag='no')
+
+
 @app.route('/<url>')
 def error(url):
     return redirect('/')
